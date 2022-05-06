@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2021.2.2\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\kursovaya_2sem.dir/objects.a
+C:\MinGW\bin\ar.exe cr CMakeFiles\kursovaya_2sem.dir/objects.a @CMakeFiles\kursovaya_2sem.dir\objects1.rsp
+C:\MinGW\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\kursovaya_2sem.dir/objects.a -Wl,--no-whole-archive -o kursovaya_2sem.exe -Wl,--out-implib,libkursovaya_2sem.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\kursovaya_2sem.dir\linklibs.rsp

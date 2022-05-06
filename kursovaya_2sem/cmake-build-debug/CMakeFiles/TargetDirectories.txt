@@ -1,0 +1,3 @@
+C:/Users/sasha/CLionProjects/kursovaya_2sem/cmake-build-debug/CMakeFiles/kursovaya_2sem.dir
+C:/Users/sasha/CLionProjects/kursovaya_2sem/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/sasha/CLionProjects/kursovaya_2sem/cmake-build-debug/CMakeFiles/rebuild_cache.dir
