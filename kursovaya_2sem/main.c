@@ -10,8 +10,8 @@ enum {
 
 struct name {
     char *name;
-    struct car *next;
-    struct car *prev;
+    struct car *next; /* Pointer to the next structure*/
+    struct car *prev; /* Pointer to the previous structure*/
 };
 
 struct car {
@@ -78,6 +78,8 @@ void list_out_first(head *head_point);
 
 void list_out_last(head *head_point);
 
+int str_check(char *str);
+
 head *create_list();
 
 void free_list(head *dlist);
@@ -117,66 +119,68 @@ int main() {
     puts("Enter empty string when you're done");
 
     head_point = create_list();
-
-    do {
-        if (head_point->first == NULL) {
-            flag = -1;
-            puts("There are no elements in the list! You can either add cards or output current list to check that it's empty!\n1 - add the information\n2 - output current list");
-            while (flag != 1) {
-                scanf("%d", &flag);
-                switch (flag) {
-                    case 1:
-                        adding_elements(head_point);
-                    case 2:
-                        output(head_point);
-                    default:
-                        puts("Option selection error, select the correct option from the list!");
+    if (head_point != NULL) {
+        do {
+            if (head_point->first == NULL) {
+                flag = -1;
+                puts("There are no elements in the list! You can either add cards or output current list to check that it's empty!\n1 - add the information\n2 - output current list");
+                while (flag != 1) {
+                    scanf("%d", &flag);
+                    switch (flag) {
+                        case 1:
+                            adding_elements(head_point);
+                        case 2:
+                            output(head_point);
+                        default:
+                            puts("Option selection error, select the correct option from the list!");
+                    }
                 }
             }
-        }
-        puts("\nMenu:\n0: Help\n"
-             "1: Adding cards about the objects of the subject area\n"
-             "2: Editing cards\n"
-             "3: Deleting cards\n"
-             "4: Card file output\n"
-             "5: Search for cards by parameter\n"
-             "6: Sorting the card file by parameter\n"
-             "7: Exit\n"
-             "8: Clear screen\n");
+            puts("\nMenu:\n0: Help\n"
+                 "1: Adding cards about the objects of the subject area\n"
+                 "2: Editing cards\n"
+                 "3: Deleting cards\n"
+                 "4: Card file output\n"
+                 "5: Search for cards by parameter\n"
+                 "6: Sorting the card file by parameter\n"
+                 "7: Exit\n"
+                 "8: Clear screen\n");
 
-        scanf("%d", &flag);
+            scanf("%d", &flag);
 
-        switch (flag) {
-            case 1:
-                adding_elements(head_point);
-                break;
-            case 2:
-                edit_elements(head_point);
-                break;
-            case 3:
-                delete_element(head_point);
-                break;
-            case 4:
-                output(head_point);
-                break;
-            case 5:
-                search_elements(head_point);
-                break;
-            case 6:
-                sort_elements(head_point);
-            case 7:
-                break;
-            case 8:
-                system("cls");
-                break;
-            default:
-                puts("Option selection error, select the correct option from the list!");
-        }
-    } while (flag != 7);
+            switch (flag) {
+                case 1:
+                    adding_elements(head_point);
+                    break;
+                case 2:
+                    edit_elements(head_point);
+                    break;
+                case 3:
+                    delete_element(head_point);
+                    break;
+                case 4:
+                    output(head_point);
+                    break;
+                case 5:
+                    search_elements(head_point);
+                    break;
+                case 6:
+                    sort_elements(head_point);
+                case 7:
+                    break;
+                case 8:
+                    system("cls");
+                    break;
+                default:
+                    puts("Option selection error, select the correct option from the list!");
+            }
+        } while (flag != 7);
 
-    free_list(head_point);
-    clear_memory(head_point);
-
+        free_list(head_point);
+        clear_memory(head_point);
+    }
+    else puts("Restart the program and enter data in correct way!");
+    getchar();
     return 0;
 }
 
@@ -559,18 +563,26 @@ head *create_list() {
 
     head_point = make_head();
 
-    fgets(temp_str, maxlen, stdin);
-    current_car_node = create_node(temp_str);
-    add_first(head_point, current_car_node);
+    if (str_check(fgets(temp_str, maxlen, stdin)) == 1) {
+        current_car_node = create_node(temp_str);
+        add_first(head_point, current_car_node);
 
-    current_car_node->count = 1;
+        current_car_node->count = 1;
 
-    while (strcmp((fgets(insert_str, maxlen, stdin)), "\n") != 0) {
-        new_car_node = create_node(insert_str);
-        new_car_node->count = i;
-        i++;
-        insert_after(head_point, new_car_node, current_car_node);
-        current_car_node = current_car_node->name->next;
+        while (strcmp((fgets(insert_str, maxlen, stdin)), "\n") != 0) {
+            if (str_check(insert_str) == 1) {
+                new_car_node = create_node(insert_str);
+                new_car_node->count = i;
+                i++;
+                insert_after(head_point, new_car_node, current_car_node);
+                current_car_node = current_car_node->name->next;
+            } else {
+                puts("Input error!(This element won't be added in the list. Continue entering data according to the example)");
+            }
+        }
+    } else {
+        puts("Input error!");
+        head_point = NULL;
     }
     return head_point;
 }
@@ -658,6 +670,8 @@ void adding_elements(head *head_point) {
     char insert_str[maxlen];
     cars *current_car_node = NULL;
     cars *new_car_node;
+
+    fflush(stdin);
 
     puts("Enter the information according to the format:\nMANUFACTURE;MODEL;NUMBER OF GEARS;MAXIMUM POWER;"
          "FUEL CONSUMPTION;WEIGHT(TONS);YEAR OF PRODUCTION\n");
@@ -886,4 +900,33 @@ void clear_memory(head *head_point) {
     head_point->last = NULL;
     head_point = NULL;
     free(head_point);
+}
+
+int str_check(char *str) {
+    char **str_array;
+    int key = 1;
+    int i, j;
+    char sep;
+    int count;
+    count = 0;
+    sep = ';';
+
+    for (i = 0; i < strlen(str); i++) {
+        if (str[i] == sep) count++;
+    }
+
+    if (count < 6 || count > 7) key = 0;
+    else {
+        str_array = simple_split(str, strlen(str), sep);
+        for (i = 2; i < 6; i++) {
+            for (j = 0; j < strlen(str_array[i]); j++) {
+                if (str_array[i][j] < 47 || str_array[i][j] > 58) {
+                    if (str_array[i][j] == 46 || str_array[i][j] == 44) key = 1;
+                    else key = 0;
+                }
+            }
+        }
+    }
+
+    return key;
 }
