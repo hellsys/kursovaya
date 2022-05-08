@@ -34,7 +34,7 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/Users/sasha/gcc/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/Users/sasha/mingw-w64-v10.0.0/bin/objdump.exe")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)

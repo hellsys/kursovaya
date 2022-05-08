@@ -68,15 +68,15 @@ include CMakeFiles/kursovaya_2sem.dir/flags.make
 CMakeFiles/kursovaya_2sem.dir/main.c.obj: CMakeFiles/kursovaya_2sem.dir/flags.make
 CMakeFiles/kursovaya_2sem.dir/main.c.obj: ../main.c
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\sasha\CLionProjects\kursovaya\kursovaya_2sem\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/kursovaya_2sem.dir/main.c.obj"
-	C:\Users\sasha\gcc\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\kursovaya_2sem.dir\main.c.obj -c C:\Users\sasha\CLionProjects\kursovaya\kursovaya_2sem\main.c
+	C:\Users\sasha\mingw-w64-v10.0.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles\kursovaya_2sem.dir\main.c.obj -c C:\Users\sasha\CLionProjects\kursovaya\kursovaya_2sem\main.c
 
 CMakeFiles/kursovaya_2sem.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/kursovaya_2sem.dir/main.c.i"
-	C:\Users\sasha\gcc\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\sasha\CLionProjects\kursovaya\kursovaya_2sem\main.c > CMakeFiles\kursovaya_2sem.dir\main.c.i
+	C:\Users\sasha\mingw-w64-v10.0.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\sasha\CLionProjects\kursovaya\kursovaya_2sem\main.c > CMakeFiles\kursovaya_2sem.dir\main.c.i
 
 CMakeFiles/kursovaya_2sem.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/kursovaya_2sem.dir/main.c.s"
-	C:\Users\sasha\gcc\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\sasha\CLionProjects\kursovaya\kursovaya_2sem\main.c -o CMakeFiles\kursovaya_2sem.dir\main.c.s
+	C:\Users\sasha\mingw-w64-v10.0.0\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\sasha\CLionProjects\kursovaya\kursovaya_2sem\main.c -o CMakeFiles\kursovaya_2sem.dir\main.c.s
 
 # Object files for target kursovaya_2sem
 kursovaya_2sem_OBJECTS = \
