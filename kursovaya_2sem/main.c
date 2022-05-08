@@ -528,7 +528,7 @@ void found_struct_out(struct car *str0) {
 }
 
 void print_PS() {
-    puts("P.S.:\n1* - Number of gears\n2* - Max power\n3* - Fuel consumption\n4* - Weight (tons)\n5* - Length\n6* - Year of production");
+    puts("P.S.:\n1* - Number of gears\n2* - Max power\n3* - Fuel consumption\n4* - Weight (tons)\n5* - Year of production");
 }
 
 void list_out_first(head *head_point) {
@@ -568,7 +568,17 @@ head *create_list() {
         add_first(head_point, current_car_node);
 
         current_car_node->count = 1;
+    }
+    else {
+        puts("Input error. Enter data in the correct way please.");
+        while (str_check(fgets(temp_str, maxlen, stdin)) != 1){
+            puts("Input error. Enter data in the correct way please.");
+        }
+        current_car_node = create_node(temp_str);
+        add_first(head_point, current_car_node);
 
+        current_car_node->count = 1;
+    }
         while (strcmp((fgets(insert_str, maxlen, stdin)), "\n") != 0) {
             if (str_check(insert_str) == 1) {
                 new_car_node = create_node(insert_str);
@@ -580,10 +590,7 @@ head *create_list() {
                 puts("Input error!(This element won't be added in the list. Continue entering data according to the example)");
             }
         }
-    } else {
-        puts("Input error!");
-        head_point = NULL;
-    }
+
     return head_point;
 }
 
