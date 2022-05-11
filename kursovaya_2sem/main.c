@@ -88,8 +88,8 @@ void print_header();
 /*Function outs selected structure*/
 void struct_out(struct car *str0);
 
-/*Function outs selected structure (differs from the previous one by a slightly different output format)*/
-void found_struct_out(struct car *str0);
+///*Function outs selected structure (differs from the previous one by a slightly different output format)*/
+//void found_struct_out(struct car *str0);
 
 /*Function prints P.S.*/
 void print_PS();
@@ -428,7 +428,7 @@ void select_by_gears(head *my_head) {
     if ((n > 0)) {
         while (q != NULL) {
             if (q->gears == n) {
-                found_struct_out(q);
+                struct_out(q);
                 found_count++;
             }
             q = q->name->next;
@@ -451,7 +451,7 @@ void select_by_manufacturer(head *my_head) {
     found_count = 0;
     while (q != NULL) {
         if (stricmp(q->manufacture, str) == 0) {
-            found_struct_out(q);
+            struct_out(q);
             found_count++;
         }
         q = q->name->next;
@@ -472,7 +472,7 @@ void select_by_model(head *my_head) {
     found_count = 0;
     while (q != NULL) {
         if (stricmp(q->name->name, str) == 0) {
-            found_struct_out(q);
+            struct_out(q);
             found_count++;
         }
         q = q->name->next;
@@ -492,7 +492,7 @@ void select_by_power(head *my_head) {
     if ((n > 0)) {
         while (q != NULL) {
             if (q->power == n) {
-                found_struct_out(q);
+                struct_out(q);
                 found_count++;
             }
             q = q->name->next;
@@ -514,7 +514,7 @@ void select_by_fuel(head *my_head) {
     if ((n > 0)) {
         while (q != NULL) {
             if (q->fuel_consumption == n) {
-                found_struct_out(q);
+                struct_out(q);
                 found_count++;
             }
             q = q->name->next;
@@ -535,7 +535,7 @@ void select_by_weight(head *my_head) {
     if ((n > 0)) {
         while (q != NULL) {
             if (q->weight == n) {
-                found_struct_out(q);
+                struct_out(q);
                 found_count++;
             }
             q = q->name->next;
@@ -557,7 +557,7 @@ void select_by_year(head *my_head) {
     if ((n > 0)) {
         while (q != NULL) {
             if (q->year == n) {
-                found_struct_out(q);
+                struct_out(q);
                 found_count++;
             }
             q = q->name->next;
@@ -593,11 +593,11 @@ void struct_out(struct car *str0) {
            str0->weight, str0->year);
 }
 
-void found_struct_out(struct car *str0) {
-    printf("|%12s |%12s |%3d |%5d |%5.2f |%5.2f |%5d |\n",
-           str0->manufacture, str0->name->name, str0->gears, str0->power, str0->fuel_consumption,
-           str0->weight, str0->year);
-}
+//void found_struct_out(struct car *str0) {
+//    printf("|%12s |%12s |%3d |%5d |%5.2f |%5.2f |%5d |\n",
+//           str0->manufacture, str0->name->name, str0->gears, str0->power, str0->fuel_consumption,
+//           str0->weight, str0->year);
+//}
 
 void print_PS() {
     puts("P.S.:\n1* - Number of gears\n2* - Max power\n3* - Fuel consumption\n4* - Weight (tons)\n5* - Year of production");
@@ -1017,6 +1017,7 @@ int str_check(char *str) {
     int i, j;
     char sep;
     int count;
+    int flag = 0;
     count = 0;
     sep = ';';
 
@@ -1035,16 +1036,19 @@ int str_check(char *str) {
         /*Comparisons of ASCII codes of elements of a two-dimensional array starting from the second with ASCII codes
          * corresponding to digits, since anything can be written in the first two (the manufacturer and the
          * model are strings)*/
-        for (i = 2; i < 6; i++) {
-            for (j = 0; j < strlen(str_array[i]); j++) {
+        for (i = 2; i < 7; i++) {
+
+            for (j = 0;(i == 6) ? (j < strlen(str_array[i])-2) : (j < strlen(str_array[i])); j++) {
                 if (str_array[i][j] < 47 || str_array[i][j] > 58) {
                     /*Also, the correct elements will be a dot and a comma for the 5th and 6th elements of a two-dimensional array, since fractional values are stored in these fields*/
                     if ((i == 4 || i == 5) && (str_array[i][j] == 46 || str_array[i][j] == 44)) key = 1;
-                    else key = 0;
+                    else flag = 1;
                 }
             }
         }
     }
+
+    if (flag) key = 0;
 
     return key;
 }
