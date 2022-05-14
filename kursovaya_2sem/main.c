@@ -47,7 +47,7 @@ cars *struct_fill(char **s2);
 void clear_string_array(char **str, int n);
 
 /*Function splits information from the string by the separator*/
-char **simple_split(const char *str, unsigned length, char sep);
+char **simple_split( char *str, unsigned length, char sep);
 
 /*Function creates node of the list*/
 cars *create_node(char *s1);
@@ -167,8 +167,10 @@ int main() {
                 switch (flag) {
                     case 1:
                         adding_elements(head_point);
+                        break;
                     case 2:
                         output(head_point);
+                        break;
                     default:
                         puts("Option selection error, select the correct option from the list!");
                 }
@@ -314,10 +316,12 @@ void clear_string_array(char **str, int n) {
     str = NULL;
 }
 
-char **simple_split(const char *str, unsigned length, char sep) {
+char **simple_split(char *str, unsigned length, char sep) {
     char **str_array = NULL;
     int i, j, k, m;
     int key, count;
+//    str[length-1] = '\0';
+//    length = length - 1;
     /*Counting the number of delimiters in a row to allocate the appropriate
      * amount of memory for a two-dimensional array*/
     for (j = 0, m = 0; j < length; j++) {
@@ -349,6 +353,7 @@ char **simple_split(const char *str, unsigned length, char sep) {
                     m++;
                 }
             }
+            str_array[m][j - k] = '\0';
         } else {
             clear_string_array(str_array, count);
         }
@@ -369,10 +374,10 @@ cars *create_node(char *s1) /* node initialization */
     word = (char *) malloc((s1_len + 1) * sizeof(char));
     if (new_node && word) {
         s1_len = strlen(s1);
-        if (s1[s1_len - 1] != '\0') {
-            s1[s1_len - 1] = '\0';
-        }
-        s1_len = strlen(s1);
+//        if (s1[s1_len - 1] != '\0') {
+//            s1[s1_len - 1] = '\0';
+//        }
+//        s1_len = strlen(s1);
 
         s2 = simple_split(s1, s1_len, sep);
         if (s2 != NULL) {
@@ -898,7 +903,7 @@ void delete_element(head *head) {
         head->cnt = head->cnt - 1;
         curr_elem = head->first;
         /*Renumbering list items*/
-        for (i = 01; i <= head->cnt; i++) {
+        for (i = 1; i <= head->cnt; i++) {
             curr_elem->count = i;
             curr_elem = curr_elem->name->next;
         }
@@ -909,6 +914,7 @@ void delete_element(head *head) {
 void sort_elements(head *head) {
     cars *curr_node = NULL;
     cars *cars_array = NULL;
+    cars *cars_temp = NULL;
     int i;
     int sort_flag;
     curr_node = head->first;
@@ -956,11 +962,22 @@ void sort_elements(head *head) {
     /*Reassigning pointers based on a sorted array*/
     head->first = &cars_array[0];
     curr_node = head->first;
+    curr_node->name->prev = NULL;
     cars_array[0].count = 1;
     for (i = 1; i <= head->cnt; i++) {
+        printf("%d", i);
+
         cars_array[i].count = i + 1;
         curr_node->name->next = &cars_array[i];
-        if (i == head->cnt) curr_node->name->next = NULL;
+        if (i != head->cnt) {
+            cars_temp = curr_node;
+            curr_node->name->next->name->prev = cars_temp;
+        }
+        if (i == head->cnt) {
+            head->last = curr_node;
+            curr_node->name->next = NULL;
+            curr_node->name->prev = cars_temp;
+        }
         curr_node = curr_node->name->next;
     }
 
@@ -1021,6 +1038,8 @@ int str_check(char *str) {
     count = 0;
     sep = ';';
 
+    str[strlen(str)-1] = '\0';
+
     /*Counting the number of delimiters in a line*/
     for (i = 0; i < strlen(str) - 1; i++) {
         if (str[i] == sep) count++;
@@ -1038,7 +1057,7 @@ int str_check(char *str) {
          * model are strings)*/
         for (i = 2; i < 7; i++) {
 
-            for (j = 0;(i == 6) ? (j < strlen(str_array[i])-2) : (j < strlen(str_array[i])); j++) {
+            for (j = 0;(j < strlen(str_array[i])); j++) {
                 if (str_array[i][j] < 47 || str_array[i][j] > 58) {
                     /*Also, the correct elements will be a dot and a comma for the 5th and 6th elements of a two-dimensional array, since fractional values are stored in these fields*/
                     if ((i == 4 || i == 5) && (str_array[i][j] == 46 || str_array[i][j] == 44)) key = 1;
