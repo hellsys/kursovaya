@@ -47,7 +47,7 @@ cars *struct_fill(char **s2);
 void clear_string_array(char **str, int n);
 
 /*Function splits information from the string by the separator*/
-char **simple_split( char *str, unsigned length, char sep);
+char **simple_split(const char *str, unsigned length, char sep);
 
 /*Function creates node of the list*/
 cars *create_node(char *s1);
@@ -86,7 +86,7 @@ cars *select_by_number(head *my_head);
 void print_header();
 
 /*Function outs selected structure*/
-void struct_out(struct car *str0);
+void struct_out(struct car *current_car_node);
 
 ///*Function outs selected structure (differs from the previous one by a slightly different output format)*/
 //void found_struct_out(struct car *str0);
@@ -148,6 +148,8 @@ void clear_memory(head *head_point);
 /*Function outputs the list*/
 void output(head *head_point);
 
+void file_output(head *head_point);
+
 int main() {
     head *head_point = NULL;
     int flag;
@@ -208,6 +210,7 @@ int main() {
             case 6:
                 sort_elements(head_point);
             case 7:
+                file_output(head_point);
                 break;
             case 8:
                 system("cls");
@@ -316,7 +319,7 @@ void clear_string_array(char **str, int n) {
     str = NULL;
 }
 
-char **simple_split(char *str, unsigned length, char sep) {
+char **simple_split(const char *str, unsigned length, char sep) {
     char **str_array = NULL;
     int i, j, k, m;
     int key, count;
@@ -592,10 +595,11 @@ void print_header() {
     puts("|------|-------------|-------------|----|------|------|------|------|");
 }
 
-void struct_out(struct car *str0) {
+void struct_out(struct car *current_car_node) {
     printf("|%5d |%12s |%12s |%3d |%5d |%5.2f |%5.2f |%5d |\n",
-           str0->count, str0->manufacture, str0->name->name, str0->gears, str0->power, str0->fuel_consumption,
-           str0->weight, str0->year);
+           current_car_node->count, current_car_node->manufacture, current_car_node->name->name, current_car_node->gears,
+           current_car_node->power, current_car_node->fuel_consumption,
+           current_car_node->weight, current_car_node->year);
 }
 
 //void found_struct_out(struct car *str0) {
@@ -766,6 +770,10 @@ void adding_elements(head *head_point) {
     char insert_str[maxlen];
     cars *current_car_node = NULL;
     cars *new_car_node;
+    int num;
+
+    num = head_point->cnt + 1;
+    current_car_node = head_point->last;
 
     fflush(stdin);
 
@@ -775,8 +783,10 @@ void adding_elements(head *head_point) {
 
     while (strcmp((fgets(insert_str, maxlen, stdin)), "\n") != 0) {
         new_car_node = create_node(insert_str);
+        new_car_node->count = num;
         insert_after(head_point, new_car_node, current_car_node);
         current_car_node = current_car_node->name->next;
+        num++;
     }
 
 }
@@ -1070,4 +1080,23 @@ int str_check(char *str) {
     if (flag) key = 0;
 
     return key;
+}
+
+void file_output(head *head_point){
+    FILE  *df = fopen("C:\\Users\\sasha\\CLionProjects\\kursovaya\\kursovaya_2sem\\out.csv", "w");
+
+    if (df){
+        cars *current_car_node;
+
+        current_car_node = head_point->first;
+
+        while (current_car_node != NULL) {
+            fprintf(df,"%d;%s;%s;%d;%d; %.2f; %.2f;%d\n",
+                   current_car_node->count, current_car_node->manufacture, current_car_node->name->name, current_car_node->gears,
+                   current_car_node->power, current_car_node->fuel_consumption,
+                   current_car_node->weight, current_car_node->year);
+            current_car_node = current_car_node->name->next;
+        }
+    }
+    fclose(df);
 }
